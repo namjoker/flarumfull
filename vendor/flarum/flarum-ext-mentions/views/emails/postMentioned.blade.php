@@ -1,9 +1,9 @@
-Hey {{ $user->username }}!
+Chào {{ $user->username }}!
 
-{{ $blueprint->reply->user->username }} replied to your post (#{{ $blueprint->post->number }}) in {{ $blueprint->post->discussion->title }}.
+{{ $blueprint->reply->user->username }} đã trả lời ở bài viết (#{{ $blueprint->post->number }})  {{ $blueprint->post->discussion->title }}.
 
 {{ app()->url() }}/d/{{ $blueprint->reply->discussion_id }}/{{ $blueprint->reply->number }}
 
 ---
 
-{{ strip_tags($blueprint->reply->contentHtml) }}
+{{ $blueprint->reply->contentHtml }}
