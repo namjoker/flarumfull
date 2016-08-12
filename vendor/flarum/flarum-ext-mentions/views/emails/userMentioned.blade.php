@@ -1,9 +1,7 @@
 Chào {{ $user->username }}!
 
-{{ $blueprint->post->user->username }} được nhắc tới trong bài viết {{ html_entities($blueprint->post->discussion->title) }}.
+{{ $blueprint->post->user->username }} được nhắc tới trong bài viết 
 
-{{ app()->url() }}/d/{{ $blueprint->post->discussion_id }}/{{ html_entities($blueprint->post->number) }}
+{{ app()->url() }}/d/{{ $blueprint->post->discussion_id }}/{{ $blueprint->post->number }}
 
----
-
-{{ strip_tags($blueprint->post->contentHtml }}
+Mời bạn bấm vào link để xem nội dung
