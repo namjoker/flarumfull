@@ -139,7 +139,9 @@ core:
     # These translations are used in the Change Email modal dialog.
     change_email:
       confirmation_message: => core.ref.confirmation_email_sent
+      confirm_password_label: Mật khẩu xác nhận
       dismiss_button: => core.ref.okay
+      incorrect_password_message: Mật khẩu sai
       submit_button: => core.ref.save_changes
       title: => core.ref.change_email
 
