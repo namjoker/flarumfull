@@ -302,7 +302,7 @@ core:
       notify_by_email_heading: => core.ref.email
       notify_by_web_heading: Web
       notify_discussion_renamed_label: Thành viên nào đó đã dổi tên cuộc thảo luận
-      privacy_disclose_online_label: Cho phép mọi người nhìn thấy khi đang onlone
+      privacy_disclose_online_label: Cho phép mọi người nhìn thấy khi đang online
       privacy_heading: Giấy phép
       title: => core.ref.settings
 
