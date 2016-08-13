@@ -23123,7 +23123,6 @@ System.register('flarum/akismet/main', ['flarum/app', 'flarum/akismet/components
     }
   };
 });;
-;
 'use strict';
 
 System.register('flarum/approval/main', ['flarum/extend', 'flarum/app', 'flarum/components/PermissionGrid'], function (_export, _context) {
@@ -23322,6 +23321,91 @@ System.register('vingle/configure/smtp/main', ['flarum/app', 'vingle/configure/s
     }
   };
 });;
+'use strict';
+
+System.register('Davis/CustomHeader/components/CustomHeaderSettingsModal', ['flarum/components/SettingsModal'], function (_export, _context) {
+  var SettingsModal, CustomHeaderSettingsModal;
+  return {
+    setters: [function (_flarumComponentsSettingsModal) {
+      SettingsModal = _flarumComponentsSettingsModal.default;
+    }],
+    execute: function () {
+      CustomHeaderSettingsModal = function (_SettingsModal) {
+        babelHelpers.inherits(CustomHeaderSettingsModal, _SettingsModal);
+
+        function CustomHeaderSettingsModal() {
+          babelHelpers.classCallCheck(this, CustomHeaderSettingsModal);
+          return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(CustomHeaderSettingsModal).apply(this, arguments));
+        }
+
+        babelHelpers.createClass(CustomHeaderSettingsModal, [{
+          key: 'className',
+          value: function className() {
+            return 'CustomHeaderSettingsModal Modal--small';
+          }
+        }, {
+          key: 'title',
+          value: function title() {
+            return app.translator.trans('davis-customheader.admin.settings.title');
+          }
+        }, {
+          key: 'form',
+          value: function form() {
+            return [m(
+              'div',
+              { className: 'Form-group' },
+              m(
+                'label',
+                null,
+                app.translator.trans('davis-customheader.admin.settings.customheader')
+              ),
+              m('textarea', { rows: '10', required: true, className: 'FormControl', type: 'text', bidi: this.setting('davis-customheader.customheader') }),
+              m(
+                'label',
+                null,
+                app.translator.trans('davis-customheader.admin.settings.cssofheader')
+              ),
+              m('textarea', { rows: '10', className: 'FormControl', type: 'text', bidi: this.setting('davis-customheader.cssofheader') }),
+              m(
+                'label',
+                null,
+                app.translator.trans('davis-customheader.admin.settings.jsofheader')
+              ),
+              m('textarea', { className: 'FormControl', type: 'text', bidi: this.setting('davis-customheader.jsofheader') })
+            )];
+          }
+        }]);
+        return CustomHeaderSettingsModal;
+      }(SettingsModal);
+
+      _export('default', CustomHeaderSettingsModal);
+    }
+  };
+});;
+'use strict';
+
+System.register('Davis/CustomHeader/main', ['flarum/app', 'flarum/extend', 'flarum/components/PermissionGrid', 'Davis/CustomHeader/components/CustomHeaderSettingsModal'], function (_export, _context) {
+  var app, extend, PermissionGrid, CustomHeaderSettingsModal;
+  return {
+    setters: [function (_flarumApp) {
+      app = _flarumApp.default;
+    }, function (_flarumExtend) {
+      extend = _flarumExtend.extend;
+    }, function (_flarumComponentsPermissionGrid) {
+      PermissionGrid = _flarumComponentsPermissionGrid.default;
+    }, function (_DavisCustomHeaderComponentsCustomHeaderSettingsModal) {
+      CustomHeaderSettingsModal = _DavisCustomHeaderComponentsCustomHeaderSettingsModal.default;
+    }],
+    execute: function () {
+
+      app.initializers.add('Davis-customheader', function () {
+        app.extensionSettings['davis-customheader'] = function () {
+          return app.modal.show(new CustomHeaderSettingsModal());
+        };
+      });
+    }
+  };
+});;
 System.register('hyn/default-group/components/DefaultGroupSettingsModal', ['flarum/components/SettingsModal', 'flarum/models/Group', 'flarum/components/SelectDropdown'], function (_export) {
     'use strict';
 
@@ -23485,6 +23569,95 @@ System.register('flarum/auth/facebook/main', ['flarum/app', 'flarum/auth/faceboo
         app.extensionSettings['flarum-auth-facebook'] = function () {
           return app.modal.show(new FacebookSettingsModal());
         };
+      });
+    }
+  };
+});;
+'use strict';
+
+System.register('flarum/flags/components/FlagsSettingsModal', ['flarum/components/SettingsModal'], function (_export, _context) {
+  var SettingsModal, FlagsSettingsModal;
+  return {
+    setters: [function (_flarumComponentsSettingsModal) {
+      SettingsModal = _flarumComponentsSettingsModal.default;
+    }],
+    execute: function () {
+      FlagsSettingsModal = function (_SettingsModal) {
+        babelHelpers.inherits(FlagsSettingsModal, _SettingsModal);
+
+        function FlagsSettingsModal() {
+          babelHelpers.classCallCheck(this, FlagsSettingsModal);
+          return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(FlagsSettingsModal).apply(this, arguments));
+        }
+
+        babelHelpers.createClass(FlagsSettingsModal, [{
+          key: 'className',
+          value: function className() {
+            return 'FlagsSettingsModal Modal--small';
+          }
+        }, {
+          key: 'title',
+          value: function title() {
+            return app.translator.trans('flarum-flags.admin.settings.title');
+          }
+        }, {
+          key: 'form',
+          value: function form() {
+            return [m(
+              'div',
+              { className: 'Form-group' },
+              m(
+                'label',
+                null,
+                app.translator.trans('flarum-flags.admin.settings.guidelines_url_label')
+              ),
+              m('input', { className: 'FormControl', bidi: this.setting('flarum-flags.guidelines_url') })
+            )];
+          }
+        }]);
+        return FlagsSettingsModal;
+      }(SettingsModal);
+
+      _export('default', FlagsSettingsModal);
+    }
+  };
+});;
+'use strict';
+
+System.register('flarum/flags/main', ['flarum/extend', 'flarum/app', 'flarum/components/PermissionGrid', 'flarum/flags/components/FlagsSettingsModal'], function (_export, _context) {
+  var extend, app, PermissionGrid, FlagsSettingsModal;
+  return {
+    setters: [function (_flarumExtend) {
+      extend = _flarumExtend.extend;
+    }, function (_flarumApp) {
+      app = _flarumApp.default;
+    }, function (_flarumComponentsPermissionGrid) {
+      PermissionGrid = _flarumComponentsPermissionGrid.default;
+    }, function (_flarumFlagsComponentsFlagsSettingsModal) {
+      FlagsSettingsModal = _flarumFlagsComponentsFlagsSettingsModal.default;
+    }],
+    execute: function () {
+
+      app.initializers.add('flarum-flags', function () {
+        app.extensionSettings['flarum-flags'] = function () {
+          return app.modal.show(new FlagsSettingsModal());
+        };
+
+        extend(PermissionGrid.prototype, 'moderateItems', function (items) {
+          items.add('viewFlags', {
+            icon: 'flag',
+            label: app.translator.trans('flarum-flags.admin.permissions.view_flags_label'),
+            permission: 'discussion.viewFlags'
+          }, 65);
+        });
+
+        extend(PermissionGrid.prototype, 'replyItems', function (items) {
+          items.add('flagPosts', {
+            icon: 'flag',
+            label: app.translator.trans('flarum-flags.admin.permissions.flag_posts_label'),
+            permission: 'discussion.flagPosts'
+          }, 70);
+        });
       });
     }
   };
@@ -25592,6 +25765,104 @@ System.register('sijad/pages/models/Page', ['flarum/Model', 'flarum/utils/mixin'
       }));
 
       _export('default', Page);
+    }
+  };
+});;
+'use strict';
+
+System.register('flarum/pusher/components/PusherSettingsModal', ['flarum/components/SettingsModal'], function (_export, _context) {
+  var SettingsModal, PusherSettingsModal;
+  return {
+    setters: [function (_flarumComponentsSettingsModal) {
+      SettingsModal = _flarumComponentsSettingsModal.default;
+    }],
+    execute: function () {
+      PusherSettingsModal = function (_SettingsModal) {
+        babelHelpers.inherits(PusherSettingsModal, _SettingsModal);
+
+        function PusherSettingsModal() {
+          babelHelpers.classCallCheck(this, PusherSettingsModal);
+          return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(PusherSettingsModal).apply(this, arguments));
+        }
+
+        babelHelpers.createClass(PusherSettingsModal, [{
+          key: 'className',
+          value: function className() {
+            return 'PusherSettingsModal Modal--small';
+          }
+        }, {
+          key: 'title',
+          value: function title() {
+            return app.translator.trans('flarum-pusher.admin.pusher_settings.title');
+          }
+        }, {
+          key: 'form',
+          value: function form() {
+            return [m(
+              'div',
+              { className: 'Form-group' },
+              m(
+                'label',
+                null,
+                app.translator.trans('flarum-pusher.admin.pusher_settings.app_id_label')
+              ),
+              m('input', { className: 'FormControl', bidi: this.setting('flarum-pusher.app_id') })
+            ), m(
+              'div',
+              { className: 'Form-group' },
+              m(
+                'label',
+                null,
+                app.translator.trans('flarum-pusher.admin.pusher_settings.app_key_label')
+              ),
+              m('input', { className: 'FormControl', bidi: this.setting('flarum-pusher.app_key') })
+            ), m(
+              'div',
+              { className: 'Form-group' },
+              m(
+                'label',
+                null,
+                app.translator.trans('flarum-pusher.admin.pusher_settings.app_secret_label')
+              ),
+              m('input', { className: 'FormControl', bidi: this.setting('flarum-pusher.app_secret') })
+            ), m(
+              'div',
+              { className: 'Form-group' },
+              m(
+                'label',
+                null,
+                app.translator.trans('flarum-pusher.admin.pusher_settings.app_cluster_label')
+              ),
+              m('input', { className: 'FormControl', bidi: this.setting('flarum-pusher.app_cluster') })
+            )];
+          }
+        }]);
+        return PusherSettingsModal;
+      }(SettingsModal);
+
+      _export('default', PusherSettingsModal);
+    }
+  };
+});;
+'use strict';
+
+System.register('flarum/pusher/main', ['flarum/extend', 'flarum/app', 'flarum/pusher/components/PusherSettingsModal'], function (_export, _context) {
+  var extend, app, PusherSettingsModal;
+  return {
+    setters: [function (_flarumExtend) {
+      extend = _flarumExtend.extend;
+    }, function (_flarumApp) {
+      app = _flarumApp.default;
+    }, function (_flarumPusherComponentsPusherSettingsModal) {
+      PusherSettingsModal = _flarumPusherComponentsPusherSettingsModal.default;
+    }],
+    execute: function () {
+
+      app.initializers.add('flarum-pusher', function (app) {
+        app.extensionSettings['flarum-pusher'] = function () {
+          return app.modal.show(new PusherSettingsModal());
+        };
+      });
     }
   };
 });;

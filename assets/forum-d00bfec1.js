@@ -31665,7 +31665,6 @@ System.register('flarum/akismet/main', ['flarum/extend', 'flarum/app', 'flarum/u
     }
   };
 });;
-;
 'use strict';
 
 System.register('flarum/approval/main', ['flarum/extend', 'flarum/app', 'flarum/models/Discussion', 'flarum/models/Post', 'flarum/components/DiscussionListItem', 'flarum/components/CommentPost', 'flarum/components/Button', 'flarum/utils/PostControls'], function (_export, _context) {
@@ -31739,6 +31738,32 @@ System.register('flarum/approval/main', ['flarum/extend', 'flarum/app', 'flarum/
       }, -10); // set initializer priority to run after reports
     }
   };
+});;
+'use strict';
+
+System.register('Davis/CustomHeader/main', ['flarum/app', 'flarum/extend', 'flarum/components/HeaderPrimary'], function (_export, _context) {
+    var app, extend, HeaderPrimary;
+    return {
+        setters: [function (_flarumApp) {
+            app = _flarumApp.default;
+        }, function (_flarumExtend) {
+            extend = _flarumExtend.extend;
+        }, function (_flarumComponentsHeaderPrimary) {
+            HeaderPrimary = _flarumComponentsHeaderPrimary.default;
+        }],
+        execute: function () {
+            app.initializers.add('davis-customheader-forum', function () {
+                extend(HeaderPrimary.prototype, 'init', function () {
+                    $('#header').prepend('<div id="extGlobalNav"></div>');
+                    $('#extGlobalNav').append(app.forum.attribute('davis-customheader.customheader'));
+                    var toppadding = Number($('#extGlobalNav').height()) + 52;
+                    $('head').append('<style>header > .container {padding: 8px;}#header-navigation {padding: 8px;}@media (min-width: 768px){.DiscussionPage-list{top: ' + toppadding + 'px !important;}}@media (min-width: 768px){#header {height: ' + toppadding + 'px !important;padding: 0 !important;}.App {padding-top: ' + toppadding + 'px !important;}.App:before {height: ' + toppadding + 'px;}}</style>');
+                    $('head').append('<style>' + app.forum.attribute("davis-customheader.cssofheader") + '</style>');
+                    $('head').append('<script>' + app.forum.attribute("davis-customheader.jsofheader") + '</script>');
+                });
+            });
+        }
+    };
 });;
 /*! http://mths.be/details v0.1.0 by @mathias | includes http://mths.be/noselect v1.0.3 */
 !function(e,t){var r,n=t.fn,o="[object Opera]"==Object.prototype.toString.call(window.opera),a=function(e){var t,r,n,o=e.createElement("details");return"open"in o?(r=e.body||function(){var r=e.documentElement;return t=!0,r.insertBefore(e.createElement("body"),r.firstElementChild||r.firstChild)}(),o.innerHTML="<summary>a</summary>b",o.style.display="block",r.appendChild(o),n=o.offsetHeight,o.open=!0,n=n!=o.offsetHeight,r.removeChild(o),t&&r.parentNode.removeChild(r),n):!1}(e),i=function(e,t,r,n){var o=e.prop("open"),a=o&&n||!o&&!n;a?(e.removeClass("open").prop("open",!1).triggerHandler("close.details"),t.attr("aria-expanded",!1),r.hide()):(e.addClass("open").prop("open",!0).triggerHandler("open.details"),t.attr("aria-expanded",!0),r.show())};n.noSelect=function(){var e="none";return this.bind("selectstart dragstart mousedown",function(){return!1}).css({MozUserSelect:e,msUserSelect:e,webkitUserSelect:e,userSelect:e})},a?(r=n.details=function(){return this.each(function(e){var r=t(this),n=t("summary",r).first();r.attr("id")||r.attr("id","details-id-"+e),r.attr("role","group"),n.attr({role:"button","aria-expanded":r.prop("open"),"aria-controls":r.attr("id")}).on("click",function(){var e=r.prop("open");n.attr("aria-expanded",!e),r.triggerHandler((e?"close":"open")+".details")})})},r.support=a):(r=n.details=function(){return this.each(function(e){var r=t(this),n=t("summary",r).first(),a=r.children(":not(summary)"),s=r.contents(":not(summary)");r.attr("id")||r.attr("id","details-id-"+e),r.attr("role","group"),n.length||(n=t("<summary>").text("Details").prependTo(r)),a.length!=s.length&&(s.filter(function(){return 3==this.nodeType&&/[^ \t\n\f\r]/.test(this.data)}).wrap("<span>"),a=r.children(":not(summary)")),r.prop("open","string"==typeof r.attr("open")),i(r,n,a),n.attr({role:"button","aria-controls":r.attr("id")}).noSelect().prop("tabIndex",0).on("click",function(){n.focus(),i(r,n,a,!0)}).keyup(function(e){(32==e.keyCode||13==e.keyCode&&!o)&&(e.preventDefault(),n.click())})})},r.support=a)}(document,jQuery);
@@ -32268,6 +32293,692 @@ System.register('flarum/auth/facebook/main', ['flarum/extend', 'flarum/app', 'fl
           ));
         });
       });
+    }
+  };
+});;
+'use strict';
+
+System.register('flarum/flags/addFlagControl', ['flarum/extend', 'flarum/app', 'flarum/utils/PostControls', 'flarum/components/Button', 'flarum/flags/components/FlagPostModal'], function (_export, _context) {
+  var extend, app, PostControls, Button, FlagPostModal;
+
+  _export('default', function () {
+    extend(PostControls, 'userControls', function (items, post) {
+      if (post.isHidden() || post.contentType() !== 'comment' || !post.canFlag() || post.user() === app.session.user) return;
+
+      items.add('flag', m(
+        Button,
+        { icon: 'flag', onclick: function onclick() {
+            return app.modal.show(new FlagPostModal({ post: post }));
+          } },
+        app.translator.trans('flarum-flags.forum.post_controls.flag_button')
+      ));
+    });
+  });
+
+  return {
+    setters: [function (_flarumExtend) {
+      extend = _flarumExtend.extend;
+    }, function (_flarumApp) {
+      app = _flarumApp.default;
+    }, function (_flarumUtilsPostControls) {
+      PostControls = _flarumUtilsPostControls.default;
+    }, function (_flarumComponentsButton) {
+      Button = _flarumComponentsButton.default;
+    }, function (_flarumFlagsComponentsFlagPostModal) {
+      FlagPostModal = _flarumFlagsComponentsFlagPostModal.default;
+    }],
+    execute: function () {}
+  };
+});;
+'use strict';
+
+System.register('flarum/flags/addFlagsDropdown', ['flarum/extend', 'flarum/app', 'flarum/components/HeaderSecondary', 'flarum/flags/components/FlagsDropdown'], function (_export, _context) {
+  var extend, app, HeaderSecondary, FlagsDropdown;
+
+  _export('default', function () {
+    extend(HeaderSecondary.prototype, 'items', function (items) {
+      if (app.forum.attribute('canViewFlags')) {
+        items.add('flags', m(FlagsDropdown, null), 15);
+      }
+    });
+  });
+
+  return {
+    setters: [function (_flarumExtend) {
+      extend = _flarumExtend.extend;
+    }, function (_flarumApp) {
+      app = _flarumApp.default;
+    }, function (_flarumComponentsHeaderSecondary) {
+      HeaderSecondary = _flarumComponentsHeaderSecondary.default;
+    }, function (_flarumFlagsComponentsFlagsDropdown) {
+      FlagsDropdown = _flarumFlagsComponentsFlagsDropdown.default;
+    }],
+    execute: function () {}
+  };
+});;
+'use strict';
+
+System.register('flarum/flags/addFlagsToPosts', ['flarum/extend', 'flarum/app', 'flarum/components/CommentPost', 'flarum/components/Button', 'flarum/helpers/punctuate', 'flarum/helpers/username', 'flarum/utils/ItemList', 'flarum/utils/PostControls'], function (_export, _context) {
+  var extend, app, CommentPost, Button, punctuate, username, ItemList, PostControls;
+
+  _export('default', function () {
+    extend(CommentPost.prototype, 'attrs', function (attrs) {
+      if (this.props.post.flags().length) {
+        attrs.className += ' Post--flagged';
+      }
+    });
+
+    CommentPost.prototype.dismissFlag = function (data) {
+      var post = this.props.post;
+
+      delete post.data.relationships.flags;
+
+      this.subtree.invalidate();
+
+      if (app.cache.flags) {
+        app.cache.flags.some(function (flag, i) {
+          if (flag.post() === post) {
+            app.cache.flags.splice(i, 1);
+
+            if (app.cache.flagIndex === post) {
+              var next = app.cache.flags[i];
+
+              if (!next) next = app.cache.flags[0];
+
+              if (next) {
+                var nextPost = next.post();
+                app.cache.flagIndex = nextPost;
+                m.route(app.route.post(nextPost));
+              }
+            }
+
+            return true;
+          }
+        });
+      }
+
+      return app.request({
+        url: app.forum.attribute('apiUrl') + post.apiEndpoint() + '/flags',
+        method: 'DELETE',
+        data: data
+      });
+    };
+
+    CommentPost.prototype.flagActionItems = function () {
+      var _this = this;
+
+      var items = new ItemList();
+
+      var controls = PostControls.destructiveControls(this.props.post);
+
+      Object.keys(controls.items).forEach(function (k) {
+        var props = controls.get(k).props;
+
+        props.className = 'Button';
+
+        extend(props, 'onclick', function () {
+          return _this.dismissFlag();
+        });
+      });
+
+      items.merge(controls);
+
+      items.add('dismiss', m(Button, { className: 'Button Button--icon Button--link', icon: 'times', onclick: this.dismissFlag.bind(this), title: app.translator.trans('flarum-flags.forum.post.dismiss_flag_tooltip') }), -100);
+
+      return items;
+    };
+
+    extend(CommentPost.prototype, 'content', function (vdom) {
+      var _this2 = this;
+
+      var post = this.props.post;
+      var flags = post.flags();
+
+      if (!flags.length) return;
+
+      if (post.isHidden()) this.revealContent = true;
+
+      vdom.unshift(m(
+        'div',
+        { className: 'Post-flagged' },
+        m(
+          'div',
+          { className: 'Post-flagged-flags' },
+          flags.map(function (flag) {
+            return m(
+              'div',
+              { className: 'Post-flagged-flag' },
+              _this2.flagReason(flag)
+            );
+          })
+        ),
+        m(
+          'div',
+          { className: 'Post-flagged-actions' },
+          this.flagActionItems().toArray()
+        )
+      ));
+    });
+
+    CommentPost.prototype.flagReason = function (flag) {
+      if (flag.type() === 'user') {
+        var user = flag.user();
+        var reason = flag.reason();
+        var detail = flag.reasonDetail();
+
+        return [app.translator.trans(reason ? 'flarum-flags.forum.post.flagged_by_with_reason_text' : 'flarum-flags.forum.post.flagged_by_text', { user: user, reason: reason }), detail ? m(
+          'span',
+          { className: 'Post-flagged-detail' },
+          detail
+        ) : ''];
+      }
+    };
+  });
+
+  return {
+    setters: [function (_flarumExtend) {
+      extend = _flarumExtend.extend;
+    }, function (_flarumApp) {
+      app = _flarumApp.default;
+    }, function (_flarumComponentsCommentPost) {
+      CommentPost = _flarumComponentsCommentPost.default;
+    }, function (_flarumComponentsButton) {
+      Button = _flarumComponentsButton.default;
+    }, function (_flarumHelpersPunctuate) {
+      punctuate = _flarumHelpersPunctuate.default;
+    }, function (_flarumHelpersUsername) {
+      username = _flarumHelpersUsername.default;
+    }, function (_flarumUtilsItemList) {
+      ItemList = _flarumUtilsItemList.default;
+    }, function (_flarumUtilsPostControls) {
+      PostControls = _flarumUtilsPostControls.default;
+    }],
+    execute: function () {}
+  };
+});;
+'use strict';
+
+System.register('flarum/flags/components/FlagList', ['flarum/Component', 'flarum/components/LoadingIndicator', 'flarum/helpers/avatar', 'flarum/helpers/username', 'flarum/helpers/icon', 'flarum/helpers/humanTime'], function (_export, _context) {
+  var Component, LoadingIndicator, avatar, username, icon, humanTime, FlagList;
+  return {
+    setters: [function (_flarumComponent) {
+      Component = _flarumComponent.default;
+    }, function (_flarumComponentsLoadingIndicator) {
+      LoadingIndicator = _flarumComponentsLoadingIndicator.default;
+    }, function (_flarumHelpersAvatar) {
+      avatar = _flarumHelpersAvatar.default;
+    }, function (_flarumHelpersUsername) {
+      username = _flarumHelpersUsername.default;
+    }, function (_flarumHelpersIcon) {
+      icon = _flarumHelpersIcon.default;
+    }, function (_flarumHelpersHumanTime) {
+      humanTime = _flarumHelpersHumanTime.default;
+    }],
+    execute: function () {
+      FlagList = function (_Component) {
+        babelHelpers.inherits(FlagList, _Component);
+
+        function FlagList() {
+          babelHelpers.classCallCheck(this, FlagList);
+          return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(FlagList).apply(this, arguments));
+        }
+
+        babelHelpers.createClass(FlagList, [{
+          key: 'init',
+          value: function init() {
+            /**
+             * Whether or not the notifications are loading.
+             *
+             * @type {Boolean}
+             */
+            this.loading = false;
+          }
+        }, {
+          key: 'view',
+          value: function view() {
+            var flags = app.cache.flags || [];
+
+            return m(
+              'div',
+              { className: 'NotificationList FlagList' },
+              m(
+                'div',
+                { className: 'NotificationList-header' },
+                m(
+                  'h4',
+                  { className: 'App-titleControl App-titleControl--text' },
+                  app.translator.trans('flarum-flags.forum.flagged_posts.title')
+                )
+              ),
+              m(
+                'div',
+                { className: 'NotificationList-content' },
+                m(
+                  'ul',
+                  { className: 'NotificationGroup-content' },
+                  flags.length ? flags.map(function (flag) {
+                    var post = flag.post();
+
+                    return m(
+                      'li',
+                      null,
+                      m(
+                        'a',
+                        { href: app.route.post(post), className: 'Notification Flag', config: function config(element, isInitialized) {
+                            m.route.apply(this, arguments);
+
+                            if (!isInitialized) $(element).on('click', function () {
+                              return app.cache.flagIndex = post;
+                            });
+                          } },
+                        avatar(post.user()),
+                        icon('flag', { className: 'Notification-icon' }),
+                        m(
+                          'span',
+                          { className: 'Notification-content' },
+                          username(post.user()),
+                          ' in ',
+                          m(
+                            'em',
+                            null,
+                            post.discussion().title()
+                          )
+                        ),
+                        humanTime(flag.time()),
+                        m(
+                          'div',
+                          { className: 'Notification-excerpt' },
+                          post.contentPlain()
+                        )
+                      )
+                    );
+                  }) : !this.loading ? m(
+                    'div',
+                    { className: 'NotificationList-empty' },
+                    app.translator.trans('flarum-flags.forum.flagged_posts.empty_text')
+                  ) : LoadingIndicator.component({ className: 'LoadingIndicator--block' })
+                )
+              )
+            );
+          }
+        }, {
+          key: 'load',
+          value: function load() {
+            var _this2 = this;
+
+            if (app.cache.flags && !app.session.user.attribute('newFlagsCount')) {
+              return;
+            }
+
+            this.loading = true;
+            m.redraw();
+
+            app.store.find('flags').then(function (flags) {
+              app.session.user.pushAttributes({ newFlagsCount: 0 });
+              app.cache.flags = flags.sort(function (a, b) {
+                return b.time() - a.time();
+              });
+            }).catch(function () {}).then(function () {
+              _this2.loading = false;
+              m.redraw();
+            });
+          }
+        }]);
+        return FlagList;
+      }(Component);
+
+      _export('default', FlagList);
+    }
+  };
+});;
+'use strict';
+
+System.register('flarum/flags/components/FlagPostModal', ['flarum/components/Modal', 'flarum/components/Button'], function (_export, _context) {
+  var Modal, Button, FlagPostModal;
+  return {
+    setters: [function (_flarumComponentsModal) {
+      Modal = _flarumComponentsModal.default;
+    }, function (_flarumComponentsButton) {
+      Button = _flarumComponentsButton.default;
+    }],
+    execute: function () {
+      FlagPostModal = function (_Modal) {
+        babelHelpers.inherits(FlagPostModal, _Modal);
+
+        function FlagPostModal() {
+          babelHelpers.classCallCheck(this, FlagPostModal);
+          return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(FlagPostModal).apply(this, arguments));
+        }
+
+        babelHelpers.createClass(FlagPostModal, [{
+          key: 'init',
+          value: function init() {
+            babelHelpers.get(Object.getPrototypeOf(FlagPostModal.prototype), 'init', this).call(this);
+
+            this.success = false;
+
+            this.reason = m.prop('');
+            this.reasonDetail = m.prop('');
+          }
+        }, {
+          key: 'className',
+          value: function className() {
+            return 'FlagPostModal Modal--small';
+          }
+        }, {
+          key: 'title',
+          value: function title() {
+            return app.translator.trans('flarum-flags.forum.flag_post.title');
+          }
+        }, {
+          key: 'content',
+          value: function content() {
+            if (this.success) {
+              return m(
+                'div',
+                { className: 'Modal-body' },
+                m(
+                  'div',
+                  { className: 'Form Form--centered' },
+                  m(
+                    'p',
+                    { className: 'helpText' },
+                    app.translator.trans('flarum-flags.forum.flag_post.confirmation_message')
+                  ),
+                  m(
+                    'div',
+                    { className: 'Form-group' },
+                    m(
+                      Button,
+                      { className: 'Button Button--primary Button--block', onclick: this.hide.bind(this) },
+                      app.translator.trans('flarum-flags.forum.flag_post.dismiss_button')
+                    )
+                  )
+                )
+              );
+            }
+
+            var guidelinesUrl = app.forum.attribute('guidelinesUrl');
+
+            return m(
+              'div',
+              { className: 'Modal-body' },
+              m(
+                'div',
+                { className: 'Form Form--centered' },
+                m(
+                  'div',
+                  { className: 'Form-group' },
+                  m(
+                    'div',
+                    null,
+                    m(
+                      'label',
+                      { className: 'checkbox' },
+                      m('input', { type: 'radio', name: 'reason', checked: this.reason() === 'off_topic', value: 'off_topic', onclick: m.withAttr('value', this.reason) }),
+                      m(
+                        'strong',
+                        null,
+                        app.translator.trans('flarum-flags.forum.flag_post.reason_off_topic_label')
+                      ),
+                      app.translator.trans('flarum-flags.forum.flag_post.reason_off_topic_text')
+                    ),
+                    m(
+                      'label',
+                      { className: 'checkbox' },
+                      m('input', { type: 'radio', name: 'reason', checked: this.reason() === 'inappropriate', value: 'inappropriate', onclick: m.withAttr('value', this.reason) }),
+                      m(
+                        'strong',
+                        null,
+                        app.translator.trans('flarum-flags.forum.flag_post.reason_inappropriate_label')
+                      ),
+                      app.translator.trans('flarum-flags.forum.flag_post.reason_inappropriate_text', {
+                        a: guidelinesUrl ? m('a', { href: guidelinesUrl, target: '_blank' }) : undefined
+                      })
+                    ),
+                    m(
+                      'label',
+                      { className: 'checkbox' },
+                      m('input', { type: 'radio', name: 'reason', checked: this.reason() === 'spam', value: 'spam', onclick: m.withAttr('value', this.reason) }),
+                      m(
+                        'strong',
+                        null,
+                        app.translator.trans('flarum-flags.forum.flag_post.reason_spam_label')
+                      ),
+                      app.translator.trans('flarum-flags.forum.flag_post.reason_spam_text')
+                    ),
+                    m(
+                      'label',
+                      { className: 'checkbox' },
+                      m('input', { type: 'radio', name: 'reason', checked: this.reason() === 'other', value: 'other', onclick: m.withAttr('value', this.reason) }),
+                      m(
+                        'strong',
+                        null,
+                        app.translator.trans('flarum-flags.forum.flag_post.reason_other_label')
+                      ),
+                      this.reason() === 'other' ? m('textarea', { className: 'FormControl', value: this.reasonDetail(), oninput: m.withAttr('value', this.reasonDetail) }) : ''
+                    )
+                  )
+                ),
+                m(
+                  'div',
+                  { className: 'Form-group' },
+                  m(
+                    Button,
+                    {
+                      className: 'Button Button--primary Button--block',
+                      type: 'submit',
+                      loading: this.loading,
+                      disabled: !this.reason() },
+                    app.translator.trans('flarum-flags.forum.flag_post.submit_button')
+                  )
+                )
+              )
+            );
+          }
+        }, {
+          key: 'onsubmit',
+          value: function onsubmit(e) {
+            var _this2 = this;
+
+            e.preventDefault();
+
+            this.loading = true;
+
+            app.store.createRecord('flags').save({
+              reason: this.reason() === 'other' ? null : this.reason(),
+              reasonDetail: this.reasonDetail(),
+              relationships: {
+                user: app.session.user,
+                post: this.props.post
+              }
+            }).then(function () {
+              return _this2.success = true;
+            }).catch(function () {}).then(this.loaded.bind(this));
+          }
+        }]);
+        return FlagPostModal;
+      }(Modal);
+
+      _export('default', FlagPostModal);
+    }
+  };
+});;
+'use strict';
+
+System.register('flarum/flags/components/FlagsDropdown', ['flarum/components/NotificationsDropdown', 'flarum/flags/components/FlagList'], function (_export, _context) {
+  var NotificationsDropdown, FlagList, FlagsDropdown;
+  return {
+    setters: [function (_flarumComponentsNotificationsDropdown) {
+      NotificationsDropdown = _flarumComponentsNotificationsDropdown.default;
+    }, function (_flarumFlagsComponentsFlagList) {
+      FlagList = _flarumFlagsComponentsFlagList.default;
+    }],
+    execute: function () {
+      FlagsDropdown = function (_NotificationsDropdow) {
+        babelHelpers.inherits(FlagsDropdown, _NotificationsDropdow);
+
+        function FlagsDropdown() {
+          babelHelpers.classCallCheck(this, FlagsDropdown);
+          return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(FlagsDropdown).apply(this, arguments));
+        }
+
+        babelHelpers.createClass(FlagsDropdown, [{
+          key: 'init',
+          value: function init() {
+            babelHelpers.get(Object.getPrototypeOf(FlagsDropdown.prototype), 'init', this).call(this);
+
+            this.list = new FlagList();
+          }
+        }, {
+          key: 'goToRoute',
+          value: function goToRoute() {
+            m.route(app.route('flags'));
+          }
+        }, {
+          key: 'getUnreadCount',
+          value: function getUnreadCount() {
+            return app.cache.flags ? app.cache.flags.length : app.forum.attribute('flagsCount');
+          }
+        }, {
+          key: 'getNewCount',
+          value: function getNewCount() {
+            return app.session.user.attribute('newFlagsCount');
+          }
+        }], [{
+          key: 'initProps',
+          value: function initProps(props) {
+            props.label = props.label || app.translator.trans('flarum-flags.forum.flagged_posts.tooltip');
+            props.icon = props.icon || 'flag';
+
+            babelHelpers.get(Object.getPrototypeOf(FlagsDropdown), 'initProps', this).call(this, props);
+          }
+        }]);
+        return FlagsDropdown;
+      }(NotificationsDropdown);
+
+      _export('default', FlagsDropdown);
+    }
+  };
+});;
+'use strict';
+
+System.register('flarum/flags/components/FlagsPage', ['flarum/components/Page', 'flarum/flags/components/FlagList'], function (_export, _context) {
+  var Page, FlagList, FlagsPage;
+  return {
+    setters: [function (_flarumComponentsPage) {
+      Page = _flarumComponentsPage.default;
+    }, function (_flarumFlagsComponentsFlagList) {
+      FlagList = _flarumFlagsComponentsFlagList.default;
+    }],
+    execute: function () {
+      FlagsPage = function (_Page) {
+        babelHelpers.inherits(FlagsPage, _Page);
+
+        function FlagsPage() {
+          babelHelpers.classCallCheck(this, FlagsPage);
+          return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(FlagsPage).apply(this, arguments));
+        }
+
+        babelHelpers.createClass(FlagsPage, [{
+          key: 'init',
+          value: function init() {
+            babelHelpers.get(Object.getPrototypeOf(FlagsPage.prototype), 'init', this).call(this);
+
+            app.history.push('flags');
+
+            this.list = new FlagList();
+            this.list.load();
+
+            this.bodyClass = 'App--flags';
+          }
+        }, {
+          key: 'view',
+          value: function view() {
+            return m(
+              'div',
+              { className: 'FlagsPage' },
+              this.list.render()
+            );
+          }
+        }]);
+        return FlagsPage;
+      }(Page);
+
+      _export('default', FlagsPage);
+    }
+  };
+});;
+'use strict';
+
+System.register('flarum/flags/main', ['flarum/app', 'flarum/Model', 'flarum/flags/models/Flag', 'flarum/flags/components/FlagsPage', 'flarum/flags/addFlagControl', 'flarum/flags/addFlagsDropdown', 'flarum/flags/addFlagsToPosts'], function (_export, _context) {
+  var app, Model, Flag, FlagsPage, addFlagControl, addFlagsDropdown, addFlagsToPosts;
+  return {
+    setters: [function (_flarumApp) {
+      app = _flarumApp.default;
+    }, function (_flarumModel) {
+      Model = _flarumModel.default;
+    }, function (_flarumFlagsModelsFlag) {
+      Flag = _flarumFlagsModelsFlag.default;
+    }, function (_flarumFlagsComponentsFlagsPage) {
+      FlagsPage = _flarumFlagsComponentsFlagsPage.default;
+    }, function (_flarumFlagsAddFlagControl) {
+      addFlagControl = _flarumFlagsAddFlagControl.default;
+    }, function (_flarumFlagsAddFlagsDropdown) {
+      addFlagsDropdown = _flarumFlagsAddFlagsDropdown.default;
+    }, function (_flarumFlagsAddFlagsToPosts) {
+      addFlagsToPosts = _flarumFlagsAddFlagsToPosts.default;
+    }],
+    execute: function () {
+
+      app.initializers.add('flarum-flags', function () {
+        app.store.models.posts.prototype.flags = Model.hasMany('flags');
+        app.store.models.posts.prototype.canFlag = Model.attribute('canFlag');
+
+        app.store.models.flags = Flag;
+
+        app.routes.flags = { path: '/flags', component: m(FlagsPage, null) };
+
+        addFlagControl();
+        addFlagsDropdown();
+        addFlagsToPosts();
+      });
+    }
+  };
+});;
+'use strict';
+
+System.register('flarum/flags/models/Flag', ['flarum/Model', 'flarum/utils/mixin'], function (_export, _context) {
+  var Model, mixin, Flag;
+  return {
+    setters: [function (_flarumModel) {
+      Model = _flarumModel.default;
+    }, function (_flarumUtilsMixin) {
+      mixin = _flarumUtilsMixin.default;
+    }],
+    execute: function () {
+      Flag = function (_Model) {
+        babelHelpers.inherits(Flag, _Model);
+
+        function Flag() {
+          babelHelpers.classCallCheck(this, Flag);
+          return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Flag).apply(this, arguments));
+        }
+
+        return Flag;
+      }(Model);
+
+      babelHelpers.extends(Flag.prototype, {
+        type: Model.attribute('type'),
+        reason: Model.attribute('reason'),
+        reasonDetail: Model.attribute('reasonDetail'),
+        time: Model.attribute('time', Model.transformDate),
+
+        post: Model.hasOne('post'),
+        user: Model.hasOne('user')
+      });
+
+      _export('default', Flag);
     }
   };
 });;
@@ -34407,6 +35118,184 @@ System.register('sijad/pages/components/PageHero', ['flarum/Component', 'flarum/
       }(Component);
 
       _export('default', PageHero);
+    }
+  };
+});;
+'use strict';
+
+System.register('flarum/pusher/main', ['flarum/extend', 'flarum/app', 'flarum/components/DiscussionList', 'flarum/components/DiscussionPage', 'flarum/components/IndexPage', 'flarum/components/Button'], function (_export, _context) {
+  var extend, app, DiscussionList, DiscussionPage, IndexPage, Button;
+  return {
+    setters: [function (_flarumExtend) {
+      /*global Pusher*/
+
+      extend = _flarumExtend.extend;
+    }, function (_flarumApp) {
+      app = _flarumApp.default;
+    }, function (_flarumComponentsDiscussionList) {
+      DiscussionList = _flarumComponentsDiscussionList.default;
+    }, function (_flarumComponentsDiscussionPage) {
+      DiscussionPage = _flarumComponentsDiscussionPage.default;
+    }, function (_flarumComponentsIndexPage) {
+      IndexPage = _flarumComponentsIndexPage.default;
+    }, function (_flarumComponentsButton) {
+      Button = _flarumComponentsButton.default;
+    }],
+    execute: function () {
+
+      app.initializers.add('flarum-pusher', function () {
+        var loadPusher = m.deferred();
+
+        $.getScript('//js.pusher.com/3.0/pusher.min.js', function () {
+          var socket = new Pusher(app.forum.attribute('pusherKey'), {
+            authEndpoint: app.forum.attribute('apiUrl') + '/pusher/auth',
+            cluster: app.forum.attribute('pusherCluster'),
+            auth: {
+              headers: {
+                'X-CSRF-Token': app.session.csrfToken
+              }
+            }
+          });
+
+          loadPusher.resolve({
+            main: socket.subscribe('public'),
+            user: app.session.user ? socket.subscribe('private-user' + app.session.user.id()) : null
+          });
+        });
+
+        app.pusher = loadPusher.promise;
+        app.pushedUpdates = [];
+
+        extend(DiscussionList.prototype, 'config', function (x, isInitialized, context) {
+          var _this = this;
+
+          if (isInitialized) return;
+
+          app.pusher.then(function (channels) {
+            channels.main.bind('newPost', function (data) {
+              var params = _this.props.params;
+
+              if (!params.q && !params.sort && !params.filter) {
+                if (params.tags) {
+                  var tag = app.store.getBy('tags', 'slug', params.tags);
+
+                  if (data.tagIds.indexOf(tag.id()) === -1) return;
+                }
+
+                var id = String(data.discussionId);
+
+                if ((!app.current.discussion || id !== app.current.discussion.id()) && app.pushedUpdates.indexOf(id) === -1) {
+                  app.pushedUpdates.push(id);
+
+                  if (app.current instanceof IndexPage) {
+                    app.setTitleCount(app.pushedUpdates.length);
+                  }
+
+                  m.redraw();
+                }
+              }
+            });
+
+            extend(context, 'onunload', function () {
+              return channels.main.unbind();
+            });
+          });
+        });
+
+        extend(DiscussionList.prototype, 'view', function (vdom) {
+          var _this2 = this;
+
+          if (app.pushedUpdates) {
+            var count = app.pushedUpdates.length;
+
+            if (count) {
+              vdom.children.unshift(Button.component({
+                className: 'Button Button--block DiscussionList-update',
+                onclick: function onclick() {
+                  _this2.refresh(false).then(function () {
+                    _this2.loadingUpdated = false;
+                    app.pushedUpdates = [];
+                    app.setTitleCount(0);
+                    m.redraw();
+                  });
+                  _this2.loadingUpdated = true;
+                },
+                loading: this.loadingUpdated,
+                children: app.translator.transChoice('flarum-pusher.forum.discussion_list.show_updates_text', count, { count: count })
+              }));
+            }
+          }
+        });
+
+        // Prevent any newly-created discussions from triggering the discussion list
+        // update button showing.
+        // TODO: Might be better pause the response to the push updates while the
+        // composer is loading? idk
+        extend(DiscussionList.prototype, 'addDiscussion', function (returned, discussion) {
+          var index = app.pushedUpdates.indexOf(discussion.id());
+
+          if (index !== -1) {
+            app.pushedUpdates.splice(index, 1);
+          }
+
+          if (app.current instanceof IndexPage) {
+            app.setTitleCount(app.pushedUpdates.length);
+          }
+
+          m.redraw();
+        });
+
+        extend(DiscussionPage.prototype, 'config', function (x, isInitialized, context) {
+          var _this3 = this;
+
+          if (isInitialized) return;
+
+          app.pusher.then(function (channels) {
+            channels.main.bind('newPost', function (data) {
+              var id = String(data.discussionId);
+
+              if (_this3.discussion && _this3.discussion.id() === id && _this3.stream) {
+                (function () {
+                  var oldCount = _this3.discussion.commentsCount();
+
+                  app.store.find('discussions', _this3.discussion.id()).then(function () {
+                    _this3.stream.update();
+
+                    if (!document.hasFocus()) {
+                      app.setTitleCount(Math.max(0, _this3.discussion.commentsCount() - oldCount));
+
+                      $(window).one('focus', function () {
+                        return app.setTitleCount(0);
+                      });
+                    }
+                  });
+                })();
+              }
+            });
+
+            extend(context, 'onunload', function () {
+              return channels.main.unbind();
+            });
+          });
+        });
+
+        extend(IndexPage.prototype, 'actionItems', function (items) {
+          items.remove('refresh');
+        });
+
+        app.pusher.then(function (channels) {
+          if (channels.user) {
+            channels.user.bind('notification', function () {
+              app.session.user.pushAttributes({
+                unreadNotificationsCount: app.session.user.unreadNotificationsCount() + 1,
+                newNotificationsCount: app.session.user.newNotificationsCount() + 1
+              });
+              delete app.cache.notifications;
+              m.redraw();
+            });
+          }
+        });
+      });
     }
   };
 });;
