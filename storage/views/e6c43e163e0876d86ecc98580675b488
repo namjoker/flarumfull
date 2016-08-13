@@ -1,0 +1,11 @@
+Chào <?php echo e($user->username); ?>!
+
+<?php echo e($blueprint->reply->user->username); ?> đã trả lời ở bài viết (#<?php echo e($blueprint->post->number); ?>)  <?php echo e($blueprint->post->discussion->title); ?>.
+
+<?php echo e(app()->url()); ?>/d/<?php echo e($blueprint->reply->discussion_id); ?>/<?php echo e($blueprint->reply->number); ?>
+
+
+---
+
+<?php echo e($blueprint->reply->contentHtml); ?>
+
