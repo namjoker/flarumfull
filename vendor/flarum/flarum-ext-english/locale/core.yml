@@ -310,7 +310,6 @@ core:
 
     # These translations are used in the Sign Up modal dialog.
     sign_up:
-      confirmation_message: => core.ref.confirmation_email_sent
       email_placeholder: => core.ref.email
       dismiss_button: => core.ref.okay
       log_in_text: "Already have an account? <a>Log In</a>"
@@ -339,11 +338,13 @@ core:
       delete_button: => core.ref.delete
       delete_confirmation: "Bạn có chắc xoá người dùng này? Việc xoá sẽ đồng thời xoá tất cả bài viết của người dùng."
       edit_button: => core.ref.edit
+      
     # These translations are used in the alert that is shown when a new user has not confirmed their email address.
     user_email_confirmation:
       alert_message: => core.ref.confirmation_email_sent
       resend_button: Resend Confirmation Email
       sent_message: Sent
+      
   # Translations in this namespace are used by the forum and admin interfaces.
   lib:
 
