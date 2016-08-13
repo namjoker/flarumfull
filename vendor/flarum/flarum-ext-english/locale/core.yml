@@ -388,7 +388,7 @@ core:
       body: |
         Chào {username}!
 
-        Chúc mừng bạn đã đăng kí vào {forum}, xin vui lòng kích hoạt tài khoản theo đường dẫn để tham gia vào diễn đàn.
+        Chúc mừng bạn đã đăng kí vào {forum} , xin vui lòng kích hoạt tài khoản theo đường dẫn để tham gia vào diễn đàn.
 
         Bấm vào đường dẫn để kích hoạt ngay tài khoản:
         {url}
