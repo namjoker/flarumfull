@@ -146,7 +146,7 @@ core:
     # These translations are used in the Change Password modal dialog.
     change_password:
       send_button: Gửi email thay đổi mật khẩu
-      text: Bấm vào nút ở phía dưới,để chúng tôi gửi link xác nhận.
+      text: Click the button below and check your email for a link to change your password.
       title: => core.ref.change_password
 
     # These translations are used by the composer controls.
@@ -154,7 +154,7 @@ core:
       close_tooltip: Đóng
       exit_full_screen_tooltip: Thoát
       full_screen_tooltip: Toàn màn hình
-      minimize_tooltip: Thu nhỏ
+      minimize_tooltip: Minimize
 
     # These translations are used by the composer when starting a discussion.
     composer_discussion:
@@ -166,24 +166,24 @@ core:
 
     # These translations are used by the composer when editing a post.
     composer_edit:
-      discard_confirmation: "Bạn chưa lưu lại sự thay đổi, bạn có muốn hủy bỏ thao tác?"
+      discard_confirmation: "You have not saved your changes. Do you wish to discard them?"
       post_link: "Post #{number} in {discussion}"
       submit_button: => core.ref.save_changes
 
     # These translations are used by the composer when replying to a discussion.
     composer_reply:
       body_placeholder: => core.ref.write_a_reply
-      discard_confirmation: "Phản hồi của bạn chưa được gửi, bạn có muốn hủy bỏ thao tác?"
-      posted_message: Phản hồi của bạn đã được gửi.
+      discard_confirmation: "You have not posted your reply. Do you wish to discard it?"
+      posted_message: Your reply was posted.
       submit_button: Gửi phản hồi
       view_button: Xem
 
     # These translations are used by the discussion control buttons.
     discussion_controls:
-      cannot_reply_button: Không thể trả lời
-      cannot_reply_text:Bạn không có quyền trả lời bài viết này.
+      cannot_reply_button: Can't Reply
+      cannot_reply_text: You don't have permission to reply to this discussion.
       delete_button: => core.ref.delete
-      delete_confirmation: "Bạn có muốn xóa bài viết này?"
+      delete_confirmation: "Are you sure you want to delete this discussion?"
       delete_forever_button: => core.ref.delete_forever
       log_in_to_reply_button: Đăng nhập để bình luận
       rename_button: Đổi tên
@@ -212,7 +212,7 @@ core:
       email_placeholder: => core.ref.email
       email_sent_message: We've sent you an email containing a link to reset your password. Check your spam folder if you don't receive it within the next minute or two.
       submit_button: Khôi phục mật khẩu
-      text: Nhập email để chúng tôi gửi mật khẩu về cho bạn.
+      text: Enter your email address and we will send you a link to reset your password.
       title: Quên mật khẩu
 
     # These translations are used in the header and session dropdown menu.
@@ -337,12 +337,11 @@ core:
       delete_button: => core.ref.delete
       delete_confirmation: "Bạn có chắc xoá người dùng này? Việc xoá sẽ đồng thời xoá tất cả bài viết của người dùng."
       edit_button: => core.ref.edit
-      
     # These translations are used in the alert that is shown when a new user has not confirmed their email address.
     user_email_confirmation:
       alert_message: => core.ref.confirmation_email_sent
-      resend_button: Gửi lại Email kích hoạt
-      sent_message: Đã gửi
+      resend_button: Resend Confirmation Email
+      sent_message: Sent
   # Translations in this namespace are used by the forum and admin interfaces.
   lib:
 
@@ -388,19 +387,18 @@ core:
       body: |
         Chào {username}!
 
-        Chúc mừng bạn đã đăng kí vào {forum} , xin vui lòng kích hoạt tài khoản theo đường dẫn để tham gia vào diễn đàn.
+        Someone (hopefully you!) has signed up to {forum} with this email address.
 
-        Bấm vào đường dẫn để kích hoạt ngay tài khoản:
+        If this was you, simply click the following link and your account will be activated:
         {url}
 
         Nếu bạn không thể đăng ký, vui lòng bỏ qua email này.
-        Thân ái, Admin
       subject: Kích hoạt tài khoản
 
     # These translations are used in emails sent when users change their email address.
     confirm_email:
       body: |
-        Chào {username}!
+        Hey {username}!
 
         Someone (hopefully you!) has changed their email address on {forum} to this one.
 
@@ -415,12 +413,12 @@ core:
       body: |
         Chào {username}!
 
-        Bạn đã yêu cầu lấy lại mật khẩu tài khoản tại {forum}.
+        Someone (hopefully you!) has submitted a forgotten password request for your account on {forum}.
 
-        Ấn vào đường dẫn để lấy lại mật khẩu cho tài khoản
+        If this was you, click the following link to reset your password:
         {url}
 
-       Nếu bạn không muốn thay đổi mật khẩu thì có thể bỏ qua thư này! Thân ái,Admin
+        If you do not wish to change your password, just ignore this email and nothing will happen.
       subject: Thay đổi mật khẩu
 
   ##
@@ -432,7 +430,7 @@ core:
     all_discussions: Thảo luận
     change_email: Thay đổi email
     change_password: Thay đổi mật khẩu
-    confirmation_email_sent: "Email kích hoạt tài khoản của bạn đã được gửi tới {email}. Kiểm tra hộp thư chính để kích hoạt tài khoản."
+    confirmation_email_sent: "We've sent a confirmation email to {email}. If it doesn't arrive soon, check your spam folder."
     delete: Xóa
     delete_forever: Xóa hoàn toàn
     discussions: Thảo luận
