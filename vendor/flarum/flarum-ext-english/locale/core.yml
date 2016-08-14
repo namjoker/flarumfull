@@ -156,46 +156,46 @@ core:
       close_tooltip: Đóng
       exit_full_screen_tooltip: Thoát
       full_screen_tooltip: Toàn màn hình
-      minimize_tooltip: Minimize
+      minimize_tooltip: Thu nhỏ
 
     # These translations are used by the composer when starting a discussion.
     composer_discussion:
       body_placeholder: Viết bài...
-      discard_confirmation: "You have not posted your discussion. Do you wish to discard it?"
+      discard_confirmation: "Bạn có muốn loại bỏ bài đăng không?"
       submit_button: Đăng bài
       title: => core.ref.start_a_discussion
       title_placeholder: Tiêu đề
 
     # These translations are used by the composer when editing a post.
     composer_edit:
-      discard_confirmation: "You have not saved your changes. Do you wish to discard them?"
+      discard_confirmation: "Bạn chưa lưu lại sự thay đổi, bạn có muốn loại bỏ không?"
       post_link: "Post #{number} in {discussion}"
       submit_button: => core.ref.save_changes
 
     # These translations are used by the composer when replying to a discussion.
     composer_reply:
       body_placeholder: => core.ref.write_a_reply
-      discard_confirmation: "You have not posted your reply. Do you wish to discard it?"
-      posted_message: Your reply was posted.
+      discard_confirmation: "Bạn chưa bình luận, bạn có muốn loại bỏ không"
+      posted_message: Gửi phản hồi thành công.
       submit_button: Gửi phản hồi
       view_button: Xem
 
     # These translations are used by the discussion control buttons.
     discussion_controls:
-      cannot_reply_button: Can't Reply
-      cannot_reply_text: You don't have permission to reply to this discussion.
+      cannot_reply_button: Không thể trả lời
+      cannot_reply_text: Bạn không có quyền trả lời bài viết này.
       delete_button: => core.ref.delete
-      delete_confirmation: "Are you sure you want to delete this discussion?"
+      delete_confirmation: "Bạn có muốn xóa bài viết này?"
       delete_forever_button: => core.ref.delete_forever
-      log_in_to_reply_button: Đăng nhập để bình luận
+      log_in_to_reply_button: Đăng nhập
       rename_button: Đổi tên
-      rename_text: "Enter a new title for this discussion:"
+      rename_text: "Nhập tiêu đề bài viết mới:"
       reply_button: => core.ref.reply
       restore_button: => core.ref.restore
 
     # These translations are used in the discussion list.
     discussion_list:
-      empty_text: "It looks like there are no discussions here."
+      empty_text: "Không có bài viết ở đây, hãy tạo bài viết nhé ."
       load_more_button: => core.ref.load_more
       mark_as_read_tooltip: Đánh dấu đã đọc
       replied_text: "{username} đã phản hồi {ago}"
@@ -212,9 +212,9 @@ core:
     forgot_password:
       dismiss_button: => core.ref.okay
       email_placeholder: => core.ref.email
-      email_sent_message: We've sent you an email containing a link to reset your password. Check your spam folder if you don't receive it within the next minute or two.
+      email_sent_message: Chúng tôi đã gửi email xác nhận lấy lại mật khẩu cho bạn, hãy kiểm tra hòm thư nhé!.
       submit_button: Khôi phục mật khẩu
-      text: Enter your email address and we will send you a link to reset your password.
+      text: Điền email để chúng tôi gửi thư xác nhận lấy lại mật khẩu cho bạn.
       title: Quên mật khẩu
 
     # These translations are used in the header and session dropdown menu.
@@ -230,7 +230,7 @@ core:
     # These translations are used on the index page, peripheral to the discussion list.
     index:
       all_discussions_link: => core.ref.all_discussions
-      cannot_start_discussion_button: Can't Start Discussion
+      cannot_start_discussion_button: Không thể tạo bài viết
       mark_all_as_read_tooltip: => core.ref.mark_all_as_read
       mark_all_as_read_confirmation: "Bạn có muốn đánh dấu đã đọc tất cả các bài viết?"
       refresh_tooltip: Làm mới
@@ -291,7 +291,7 @@ core:
 
     # These translations are used by the search results dropdown list.
     search:
-      all_discussions_button: 'Search all discussions for "{query}"'
+      all_discussions_button: 'Tìm kiếm các bài viết theo từ khóa "{query}"'
       discussions_heading: => core.ref.discussions
       users_heading: Thành viên
 
@@ -303,7 +303,7 @@ core:
       notifications_heading: => core.ref.notifications
       notify_by_email_heading: => core.ref.email
       notify_by_web_heading: Web
-      notify_discussion_renamed_label: Thành viên nào đó đã dổi tên cuộc thảo luận
+      notify_discussion_renamed_label: Thành viên nào đó đã đổi tên cuộc thảo luận
       privacy_disclose_online_label: Cho phép mọi người nhìn thấy khi đang online
       privacy_heading: Giấy phép
       title: => core.ref.settings
@@ -312,7 +312,7 @@ core:
     sign_up:
       email_placeholder: => core.ref.email
       dismiss_button: => core.ref.okay
-      log_in_text: "Already have an account? <a>Log In</a>"
+      log_in_text: "Bạn chưa có tài khoản? <a>Tạo ngay bây giờ</a>"
       password_placeholder: => core.ref.password
       submit_button: => core.ref.sign_up
       title: => core.ref.sign_up
@@ -325,8 +325,8 @@ core:
       avatar_upload_button: Tải lên
       bio_placeholder: Mô tả đôi chút về bạn
       discussions_link: => core.ref.discussions
-      in_discussion_text: "In {discussion}"
-      joined_date_text: "Joined {ago}"
+      in_discussion_text: "Đã tham gia ở {discussion}"
+      joined_date_text: "Ngày tham gia {ago}"
       online_text: Online
       posts_load_more_button: => core.ref.load_more
       posts_link: Bài viết
@@ -342,7 +342,7 @@ core:
     # These translations are used in the alert that is shown when a new user has not confirmed their email address.
     user_email_confirmation:
       alert_message: => core.ref.confirmation_email_sent
-      resend_button: Resend Confirmation Email
+      resend_button: Gửi lại email xác nhận
       sent_message: Sent
       
   # Translations in this namespace are used by the forum and admin interfaces.
@@ -390,12 +390,13 @@ core:
       body: |
         Chào {username}!
 
-        Someone (hopefully you!) has signed up to {forum} with this email address.
+        Bạn đã đăng kí tài khoản tại {forum} bằng email
 
-        If this was you, simply click the following link and your account will be activated:
+        Để hoàn tất đăng kí xin vui lòng bấm vào link đưới để kích hoạt tài khoản:
+        
         {url}
 
-        Nếu bạn không thể đăng ký, vui lòng bỏ qua email này.
+        Nếu bạn không muốn đăng ký, vui lòng bỏ qua email này.
       subject: Kích hoạt tài khoản
 
     # These translations are used in emails sent when users change their email address.
@@ -406,6 +407,7 @@ core:
         Someone (hopefully you!) has changed their email address on {forum} to this one.
 
         If this was you, simply click the following link and your email will be confirmed:
+        
         {url}
 
         If this was not you, please ignore this email.
@@ -419,6 +421,7 @@ core:
         Someone (hopefully you!) has submitted a forgotten password request for your account on {forum}.
 
         If this was you, click the following link to reset your password:
+        
         {url}
 
         If you do not wish to change your password, just ignore this email and nothing will happen.
@@ -433,7 +436,7 @@ core:
     all_discussions: Thảo luận
     change_email: Thay đổi email
     change_password: Thay đổi mật khẩu
-    confirmation_email_sent: "We've sent a confirmation email to {email}. If it doesn't arrive soon, check your spam folder."
+    confirmation_email_sent: "Một email kích hoạt tài khoản đã được đã được gửi tới {email}."
     delete: Xóa
     delete_forever: Xóa hoàn toàn
     discussions: Thảo luận
