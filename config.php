@@ -5,14 +5,14 @@
     'driver' => 'mysql',
     'host' => 'localhost',
     'database' => 'hoidap',
-    'username' => 'root',
-    'password' => '1995',
+    'username' => 'ryuzaki95',
+    'password' => '',
     'charset' => 'utf8mb4',
     'collation' => 'utf8mb4_unicode_ci',
     'prefix' => '',
     'strict' => false,
   ),
-  'url' => 'http://thanglongit.me',
+  'url' => 'https://hoidap4-ryuzaki95.c9users.io',
   'paths' => 
   array (
     'api' => 'api',

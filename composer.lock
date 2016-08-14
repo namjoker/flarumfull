@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f1c4a223a680d4ef52591b37088f59a5",
-    "content-hash": "6ab2274227a5357683fa9def58630cd4",
+    "hash": "ef53227dbababc40ef767876df91d693",
+    "content-hash": "5abe4e16ab1196e0373705a66cc1ab90",
     "packages": [
         {
             "name": "danielstjules/stringy",
@@ -4115,6 +4115,46 @@
                 "trigger"
             ],
             "time": "2016-07-04 13:08:05"
+        },
+        {
+            "name": "s9e/flarum-ext-autoimage",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/s9e/flarum-ext-autoimage.git",
+                "reference": "146cedc4a668155c4c408b6c48455d5e5810d0de"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/s9e/flarum-ext-autoimage/zipball/146cedc4a668155c4c408b6c48455d5e5810d0de",
+                "reference": "146cedc4a668155c4c408b6c48455d5e5810d0de",
+                "shasum": ""
+            },
+            "require": {
+                "flarum/core": ">=0.1.0-beta.5",
+                "php": ">=5.4.0"
+            },
+            "type": "flarum-extension",
+            "extra": {
+                "flarum-extension": {
+                    "title": "AutoImage",
+                    "icon": {
+                        "name": "image",
+                        "backgroundColor": "#1f781f",
+                        "color": "#fff"
+                    }
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Automatically turn image links into images.",
+            "keywords": [
+                "flarum",
+                "image"
+            ],
+            "time": "2016-07-31 13:45:18"
         },
         {
             "name": "s9e/flarum-ext-mediaembed",
