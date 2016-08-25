@@ -37774,17 +37774,17 @@ System.register('vingle/share/social/main', ['flarum/extend', 'flarum/app', 'fla
 /** @const */ HINT.requireAncestor=0;
 /** @const */ var o553403F9=[0];
 /** @const */ var o18338443=[7437];
-/** @const */ var o84A8D0EF=[16135];
 /** @const */ var o29DFF5D4=[16129];
+/** @const */ var o84A8D0EF=[16135];
 /** @const */ var o83A17833=[16175];
+/** @const */ var oB565876D={flags:2};
 /** @const */ var o85888FAE=["","id"];
 /** @const */ var o8753E5EF={flags:0};
-/** @const */ var oB565876D={flags:2};
 /** @const */ var o939F1698={flags:514};
 /** @const */ var o9ECD58EE=["","path"];
 /** @const */ var o826822C6={flags:3137};
-/** @const */ var o59B1287B={flags:3073};
 /** @const */ var o25F66F9B={flags:3397};
+/** @const */ var o59B1287B={flags:3073};
 /** @const */ var oD62CC35F={required:!1};
 /** @const */ var oCF37F21E={required:!0};
 /** @const */ var oEDE19F33=["","user","id"];
@@ -37817,17 +37817,17 @@ function(attrValue,attrName){return BuiltInFilters.filterIdentifier(attrValue);}
 * @param {!Object} tagConfig
 */
 function(tag,tagConfig){return filterAttributes(tag,tagConfig,registeredVars,logger);};
-/** @const */ var oD473AADC=[/**
-* @param {*} attrValue
-* @param {!string} attrName
-*/
-function(attrValue,attrName){return BuiltInFilters.filterRegexp(attrValue,/^\d+$/);}];
+/** @const */ var o1B3CF9D3=[oD76D04BF];
 /** @const */ var o26479C14=[/**
 * @param {*} attrValue
 * @param {!string} attrName
 */
 function(attrValue,attrName){return BuiltInFilters.filterRegexp(attrValue,/^\w+$/);}];
-/** @const */ var o1B3CF9D3=[oD76D04BF];
+/** @const */ var oD473AADC=[/**
+* @param {*} attrValue
+* @param {!string} attrName
+*/
+function(attrValue,attrName){return BuiltInFilters.filterRegexp(attrValue,/^\d+$/);}];
 /** @const */ var o443A2735=[/**
 * @param {*} attrValue
 * @param {!string} attrName
@@ -37854,13 +37854,13 @@ function(attrValue,attrName){return BuiltInFilters.filterRegexp(attrValue,/^[0-9
 * @param {!string} attrName
 */
 function(attrValue,attrName){return BuiltInFilters.filterUrl(attrValue,registeredVars["urlConfig"],logger);}];
-/** @const */ var o3E231DC3={filterChain:o26479C14,required:!1};
 /** @const */ var o0ED98DCC={filterChain:oD473AADC,required:!1};
 /** @const */ var o17C2BC8D={filterChain:oD473AADC,required:!0};
+/** @const */ var o3E231DC3={filterChain:o26479C14,required:!1};
 /** @const */ var o27382C82={filterChain:o26479C14,required:!0};
 /** @const */ var oA87F4E5E={filterChain:oEA70F0A9,required:!1};
-/** @const */ var o8DFAD302={filterChain:o443A2735,required:!1};
 /** @const */ var oB1647F1F={filterChain:oEA70F0A9,required:!0};
+/** @const */ var o8DFAD302={filterChain:o443A2735,required:!1};
 /** @const */ var oDBED9E2A={filterChain:[/**
 * @param {*} attrValue
 * @param {!string} attrName
@@ -39196,7 +39196,24 @@ matches.forEach(function(m)
 	// Pair the tags together
 	startTag.pairWith(endTag);
 });
-				},quickMatch:"@",regexp:/\b[-a-z0-9_+.]+@[-a-z0-9.]*[a-z0-9]/ig,regexpLimit:10000},"Autolink":{parser:/**
+				},quickMatch:"@",regexp:/\b[-a-z0-9_+.]+@[-a-z0-9.]*[a-z0-9]/ig,regexpLimit:10000},"Autoimage":{parser:/**
+				* @param {!string} text
+				* @param {!Array.<Array>} matches
+				*/
+				function(text, matches)
+				{
+					/** @const */
+					var config={attrName:"src",tagName:"IMG"};
+					var tagName  = config.tagName,
+	attrName = config.attrName;
+
+matches.forEach(function(m)
+{
+	var tag = addSelfClosingTag(tagName, m[0][1], m[0][0].length);
+	tag.setAttribute(attrName, m[0][0]);
+	tag.setSortPriority(-1);
+});
+				},quickMatch:":\/\/",regexp:/https?:\/\/[-.\w]+\/[-.\/\w]+\.(?:gif|jpe?g|png)(?!\S)/g,regexpLimit:10000},"Autolink":{parser:/**
 				* @param {!string} text
 				* @param {!Array.<Array>} matches
 				*/
